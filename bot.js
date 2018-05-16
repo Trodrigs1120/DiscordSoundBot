@@ -9,7 +9,8 @@ client.on("message", (message) => {
     message.channel.send("The bot is still a work in progress but It currently has a few commands");
     message.channel.send('"!joinme" will join the bot into your channel');
     message.channel.send('"!goaway" will remove the bot from your channel');
-    message.channel.send('"!dunk1" and "!wimmy" will play the sound bite');
+    message.channel.send('"!dunk1", "!wimmy", and "!dave" will play the sound bite');
+   
   }
 
   if (message.content.startsWith("!joinme")) {
@@ -28,7 +29,7 @@ client.on("message", (message) => {
   .then(connection => {
     const broadcast = client
     .createVoiceBroadcast()
-    .playFile('./assets/Dunk1.mp3');
+    .playFile('./assets/dunk1.mp3');
   const dispatcher = connection.playBroadcast(broadcast);
   })
 }
@@ -44,6 +45,17 @@ client.on("message", (message) => {
   .catch(console.error);
   }
 
+  if (message.content.startsWith("!dave")) {
+    const channel = message.member.voiceChannel;
+    channel.join()
+  .then(connection => {
+    const broadcast = client
+    .createVoiceBroadcast()
+    .playFile('./assets/takyon.mp3');
+  const dispatcher = connection.playBroadcast(broadcast);
+  })
+  .catch(console.error);
+  }
 
 });
 client.login(auth.token);
