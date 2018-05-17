@@ -1,15 +1,16 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
+// sets the token and prefix from the config file
 const config = require("./config.json")
 const prefix = config.prefix
+const token = config.token
+
 client.on("ready", () => {
   console.log("I am ready!");
 });
 client.on("message", (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
-  if (message.content.startsWith(prefix)) {
-
-  }
+  
   if (message.content.startsWith(prefix + "help")) {
     message.channel.send("The bot is still a work in progress but It currently has a few commands");
     message.channel.send('"!joinme" will join the bot into your channel');
@@ -67,4 +68,4 @@ client.on("message", (message) => {
    }
 
 });
-client.login(config.token);
+client.login(token);
