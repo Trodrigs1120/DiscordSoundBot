@@ -1,0 +1,1 @@
+A discord bot I made to use in my own discord server. It is mainly used to play sound files and post links. It will work as long as you create a config.json file as outlined here. 
