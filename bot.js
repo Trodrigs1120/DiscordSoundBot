@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const auth = require("./auth.json")
+const config = require("./config.json")
 client.on("ready", () => {
   console.log("I am ready!");
 });
@@ -56,7 +56,8 @@ client.on("message", (message) => {
   })
   .catch(console.error);
   }
+  if (message.content.)
 
 });
-client.login(auth.token);
+client.login(config.token);
 //remove this shit before you upload to github
