@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
+let MongoClient = require('mongodb').MongoClient;
 // sets the token and prefix from the config file
 const config = require("./config.json")
 const prefix = config.prefix
@@ -8,6 +9,10 @@ let VotingActive=false;
 let ChoiceA=0;
 let ChoiceB=0;
 let AlreadyVoted=[]
+
+let url = "mongodb://localhost:27017/";
+
+
 
 client.on("ready", () => {
   console.log("I am ready!");
@@ -128,7 +133,7 @@ client.on("message", (message) => {
         AlreadyVoted.push(message.author.username)
         ChoiceB++
    
-        console.log(AlreadyVoted[0])
+        console.log(AlreadyVoted)
         // if statements just to make sure it doesnt ever write 1 votes or 2 vote
         if (ChoiceA===1){
           message.channel.send(ChoiceB + " vote received for choice B")
@@ -148,8 +153,7 @@ client.on("message", (message) => {
      ChoiceB=0;
     VotingActive = true;
     // here we need to add the randomization
-    message.channel.send("92. Zero Two (Darling in the FranXX) "+ "https://steamusercontent-a.akamaihd.net/ugc/930434788904617490/2FD303714A1FF9A548B17A4565933E54B0C58D0E/")
-    message.channel.send("66. Yoko Littner (Gurren Lagann) "+  "https://steamusercontent-a.akamaihd.net/ugc/872992670372422709/5B432A73381198D27695F60EE08934AB9789B76D/")
+    
     message.channel.send("Type !poll A for option 1 or Type !poll B for option 2")
    }
 
@@ -157,5 +161,79 @@ client.on("message", (message) => {
      //just for debugging
     VotingActive===false;
    }
+   if (message.content == (prefix + "testpoll")){
+     let max=50; // 50 is the number of records I have in the db
+     let char1 = Math.floor(Math.random() * Math.floor(max))
+     let char2 = Math.floor(Math.random() * Math.floor(max))
+     // no duplicate characters
+     if (char1===char2){
+      char1 = Math.floor(Math.random() * Math.floor(max))
+      char2 = Math.floor(Math.random() * Math.floor(max))
+     }
+     let Char1Info = {
+    name : "",
+    url : "",
+    wins : 0,
+    loses : 0,
+     }
+    let Char2Info={
+      name : "",
+      url : "",
+      wins : 0,
+      loses : 0,
+    }
+        
+
+     
+
+     
+
+     MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      let dbo = db.db("characters");
+      
+      dbo.collection("character").find().limit(1).skip(char1).toArray(function(err, result1) {
+        if (err) throw err;
+         console.log(result1);
+        Char1Info.name = result1[0].name
+        
+        Char1Info.url= result1[0].url
+        Char1Info.wins = result1[0].wins
+        Char1Info.loses = result1[0].loses
+        message.channel.send(result1[0].name + " " + result1[0].url )
+        message.channel.send(" Wins:" + result1[0].wins + " Losses: " + result1[0].loses)
+        console.log(Char1Info)
+        db.close();
+      });
+      dbo.collection("character").find().limit(1).skip(char2).toArray(function(err, result2) {
+        if (err) throw err;
+        console.log(result2);
+        Char2Info.name = result2[0].name
+        Char2Info.url= result2[0].url
+        Char2Info.wins = result2[0].wins
+        Char2Info.loses = result2[0].loses
+        message.channel.send(result2[0].name + " " + result2[0].url )
+        message.channel.send(" Wins:" + result2[0].wins + " Losses: " + result2[0].loses)
+        console.log(Char2Info)
+        db.close();
+      });
+    }); 
+    
+    
+      // message.channel.send(Char1Info.name + " " + Char1Info.url )
+      // message.channel.send(" Wins:" + Char1Info.wins + "Losses: " + Char1Info.loses)
+    //  message.channel.send(char2)
+   }
 });
 client.login(token);
+
+
+
+// finds one db record
+
+// dbo.collection("character").findOne({}, function(err, result) {
+//   if (err) throw err;
+//   console.log(result.name);
+//   console.log(result)
+//   db.close();
+// });
