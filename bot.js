@@ -31,7 +31,7 @@ client.on("message", (message) => {
     message.channel.send('"!goaway" will remove the bot from your channel');
     message.channel.send('"!dunk1", "!wimmy", and "!dave" will play the sound bite. We also have a total war rollchart if you cant make up your mind on what faction to play');
     message.channel.send('finally we have a poll between 2 characters that you can trigger with the !poll command, you vote via !poll A and !poll B')
-   
+    message.channel.send('Lastly you can add characters to the poll command via "!addchar NameAsOneWord UrlToJpg')
   }
   
 
