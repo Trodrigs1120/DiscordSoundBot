@@ -140,6 +140,7 @@ client.on("message", (message) => {
    if (message.content == (prefix + "poll")){
    
     let choice1wins=false
+    
     let timeout = setTimeout(function () {
 
       MongoClient.connect(url, function(err, db) {
@@ -249,10 +250,18 @@ client.on("message", (message) => {
     })
 })
    }
-  //  if (message.content == (prefix + "addchar")){
-  //   const args = message.content.slice(prefix.length).trim().split(/ +/g);
-  //   const command = args.shift().toLowerCase();
-  //  }
+    if (message.content == (prefix + "allchars")){
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    let dbo = db.db("characters");
+    dbo.collection("character").find().toArray(function(err, result) {
+      for (var i=0; i<result.length; i++){
+        message.author.send(result[i].name)
+      }
+      
+    })
+  })
+  }
   
 });
 client.login(token);
