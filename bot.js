@@ -14,12 +14,14 @@ let url = "mongodb://localhost:27017/";
 
 
 
+
 client.on("ready", () => {
   console.log("I am ready!");
 });
 
 client.on("message", (message) => {
-
+  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+  const command = args.shift().toLowerCase();
   // images, sound files and basic commands
   if (!message.content.startsWith(prefix) || message.author.bot) return;
   
@@ -134,10 +136,9 @@ client.on("message", (message) => {
 
     }
   }
-  //
+  
    if (message.content == (prefix + "poll")){
-    // psuedo coding the process 
-    
+   
     let choice1wins=false
     let timeout = setTimeout(function () {
 
@@ -174,7 +175,7 @@ client.on("message", (message) => {
      ChoiceB=0;
     VotingActive = true;
     // here we need to add the randomization
-    let max=50; // 50 is the number of records I have in the db
+    let max=100; // 100 is the number of records I have in the db
      let char1 = Math.floor(Math.random() * Math.floor(max))
      let char2 = Math.floor(Math.random() * Math.floor(max))
      // no duplicate characters
@@ -228,8 +229,30 @@ client.on("message", (message) => {
     }); 
     message.channel.send("Type !poll A for option 1 or Type !poll B for option 2")
    }
+   if (command === "addchar") {
+    // let name = args[0]; // Remember arrays are 0-based!.
+    // let url = args[1];
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      let dbo = db.db("characters");
+      let name = args[0]; // Remember arrays are 0-based!.
+      let url = args[1];
+      dbo.collection("character").insert({name: name, url:url, wins: 0, loses: 0 })
 
-
+    message.reply(`Attempted to add character to database`);
+    dbo.collection("character").find({"name" : name }).limit(1).toArray(function(err, result) {
+      console.log(result)
+      message.channel.send("Here is the data that was entered if this looks wrong, send me the _id and I can always delete it")
+      message.channel.send("id "+ result[0]._id + " "+ result[0].name + " url "+ result[0].url)
+    db.close();
+    
+    })
+})
+   }
+  //  if (message.content == (prefix + "addchar")){
+  //   const args = message.content.slice(prefix.length).trim().split(/ +/g);
+  //   const command = args.shift().toLowerCase();
+  //  }
   
 });
 client.login(token);
