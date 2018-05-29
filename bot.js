@@ -40,7 +40,7 @@ client.on("message", (message) => {
     message.channel.send('"!joinme" will join the bot into your channel');
     message.channel.send('"!goaway" will remove the bot from your channel');
     message.channel.send('"!dunk1", "!wimmy", and "!dave" will play the sound bite. We also have a total war rollchart if you cant make up your mind on what faction to play');
-
+    message.channel.send('finally we have a poll between 2 characters that you can trigger with the !poll command, you vote via !poll A and !poll B')
    
   }
   
@@ -160,13 +160,13 @@ client.on("message", (message) => {
       message.channel.send("Times up!")
       if (ChoiceA>ChoiceB){
         choice1wins=true
-        message.channel.send(Char1Info.name + " is the winner with" + ChoiceA + " votes!")
+        message.channel.send(Char1Info.name + " is the winner with " + ChoiceA + " votes!")
       } else if (ChoiceA==ChoiceB){
         message.channel.send("No contest")
         return
       } else {
         // shouldnt need to write anything else but its here
-        message.channel.send(Char2Info.name + " is the winner with" + ChoiceB + " votes!")
+        message.channel.send(Char2Info.name + " is the winner with " + ChoiceB + " votes!")
       }
       if (choice1wins==true){
         dbo.collection("character").update({"name": Char1Info.name }, {$set: {wins: Char1Info.wins+1}})
@@ -245,14 +245,3 @@ client.on("message", (message) => {
   
 });
 client.login(token);
-
-
-
-// finds one db record
-
-// dbo.collection("character").findOne({}, function(err, result) {
-//   if (err) throw err;
-//   console.log(result.name);
-//   console.log(result)
-//   db.close();
-// }); 
