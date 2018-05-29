@@ -43,6 +43,8 @@ client.on("message", (message) => {
 
    
   }
+  
+
 
   if (message.content.startsWith(prefix + "joinme")) {
     const channel = message.member.voiceChannel;
@@ -110,7 +112,7 @@ client.on("message", (message) => {
         AlreadyVoted.push(message.author.username)
         ChoiceA++
         
-        console.log(AlreadyVoted[0])
+        console.log("Already voted 1 and 2" + AlreadyVoted[0] + AlreadyVoted[1])
         // if statements just to make sure it doesnt ever write 1 votes or 2 vote
         if (ChoiceA===1){
           message.channel.send(ChoiceA + " vote received for choice A")
@@ -182,11 +184,6 @@ client.on("message", (message) => {
       wins : 0,
       loses : 0,
     }
-        
-
-     
-
-     
 
      MongoClient.connect(url, function(err, db) {
       if (err) throw err;
@@ -195,35 +192,56 @@ client.on("message", (message) => {
       dbo.collection("character").find().limit(1).skip(char1).toArray(function(err, result1) {
         if (err) throw err;
          console.log(result1);
+       
         Char1Info.name = result1[0].name
-        
         Char1Info.url= result1[0].url
         Char1Info.wins = result1[0].wins
         Char1Info.loses = result1[0].loses
         message.channel.send(result1[0].name + " " + result1[0].url )
-        message.channel.send(" Wins:" + result1[0].wins + " Losses: " + result1[0].loses)
-        console.log(Char1Info)
+        message.channel.send(" Wins: " + result1[0].wins + " Losses: " + result1[0].loses)
+      
         db.close();
       });
       dbo.collection("character").find().limit(1).skip(char2).toArray(function(err, result2) {
         if (err) throw err;
         console.log(result2);
+       
         Char2Info.name = result2[0].name
         Char2Info.url= result2[0].url
         Char2Info.wins = result2[0].wins
         Char2Info.loses = result2[0].loses
         message.channel.send(result2[0].name + " " + result2[0].url )
-        message.channel.send(" Wins:" + result2[0].wins + " Losses: " + result2[0].loses)
-        console.log(Char2Info)
+        message.channel.send(" Wins: " + result2[0].wins + " Losses: " + result2[0].loses)
+        
         db.close();
       });
     }); 
     
+
     
       // message.channel.send(Char1Info.name + " " + Char1Info.url )
       // message.channel.send(" Wins:" + Char1Info.wins + "Losses: " + Char1Info.loses)
     //  message.channel.send(char2)
    }
+   // This is going to just be the update clause that gets set
+   if (message.content == (prefix + "update")){
+    // psuedo coding the process 
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      let dbo = db.db("characters");
+    // will need to be replaced with a variable when we merge the functionality
+    if (player1wins==true){
+      dbo.collection("character").update({"name": Char1Info.name }, {$set: {wins: Char1Info.wins+1}})
+      dbo.collection("character").update({"name": Char2Info.name}, {$set: {loses: Char2Info.loses+1 }})
+    message.channel.send("Tried to update id ")
+    } else {
+      dbo.collection("character").update({"name": "35. Nico Yazawa (Love Live! School Idol Project)"}, {$set: {wins: 1}})
+    message.channel.send("Tried to update id ")
+    db.close();
+    }
+    db.close();
+  }); 
+  }
 });
 client.login(token);
 
