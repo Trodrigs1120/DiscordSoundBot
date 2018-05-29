@@ -18,18 +18,6 @@ client.on("ready", () => {
   console.log("I am ready!");
 });
 
-function OutputVoteScores(){
-  if (ChoiceA===1){
-    message.channel.send(ChoiceA + " vote received for choice A")
-  } else {
-    message.channel.send(ChoiceA + " votes received for choice A")
-  }
-  if (ChoiceB===1){
-    message.channel.send(ChoiceB + " vote received for choice B")
-  } else {
-    message.channel.send(ChoiceB + " votes received for choice B")
-  }
-}
 client.on("message", (message) => {
 
   // images, sound files and basic commands
