@@ -150,21 +150,42 @@ client.on("message", (message) => {
    if (message.content == (prefix + "poll")){
     // psuedo coding the process 
     
+    let choice1wins=false
+    let timeout = setTimeout(function () {
+
+      MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        let dbo = db.db("characters");
+
+      message.channel.send("timer triggered")
+      if (ChoiceA>ChoiceB){
+        choice1wins=true
+      } else if (ChoiceA==ChoiceB){
+        message.channel.send("No contest")
+        return
+      } else {
+        // shouldnt need to write anything else but its here
+      }
+      if (choice1wins==true){
+        dbo.collection("character").update({"name": Char1Info.name }, {$set: {wins: Char1Info.wins+1}})
+        dbo.collection("character").update({"name": Char2Info.name}, {$set: {loses: Char2Info.loses+1 }})
+      message.channel.send("Tried to update id ")
+      } else if (choice1wins==false){
+        dbo.collection("character").update({"name": Char1Info.name }, {$set: {loses: Char1Info.wins+1}})
+        dbo.collection("character").update({"name": Char2Info.name}, {$set: {wins: Char2Info.loses+1 }})
+      }
+        db.close();
+      });
+
+
+    // do I just want to run the who wins function at the end of it?
+  }, 18000); 
      AlreadyVoted = []
      ChoiceA=0;
      ChoiceB=0;
     VotingActive = true;
     // here we need to add the randomization
-    
-    message.channel.send("Type !poll A for option 1 or Type !poll B for option 2")
-   }
-
-   if (message.content == prefix +"votinginactive"){
-     //just for debugging
-    VotingActive===false;
-   }
-   if (message.content == (prefix + "testpoll")){
-     let max=50; // 50 is the number of records I have in the db
+    let max=50; // 50 is the number of records I have in the db
      let char1 = Math.floor(Math.random() * Math.floor(max))
      let char2 = Math.floor(Math.random() * Math.floor(max))
      // no duplicate characters
@@ -216,13 +237,27 @@ client.on("message", (message) => {
         db.close();
       });
     }); 
+    message.channel.send("Type !poll A for option 1 or Type !poll B for option 2")
+   }
+
+   if (message.content == prefix +"votinginactive"){
+     //just for debugging
+    VotingActive===false;
+   }
+  //  if (message.content == (prefix + "testpoll")){
+  //   let timeout = setTimeout(function () {
+  //     message.channel.send("timer triggered")
+
+  //   // do I just want to run the who wins function at the end of it?
+  // }, 200); 
+    
     
 
     
       // message.channel.send(Char1Info.name + " " + Char1Info.url )
       // message.channel.send(" Wins:" + Char1Info.wins + "Losses: " + Char1Info.loses)
     //  message.channel.send(char2)
-   }
+   
    // This is going to just be the update clause that gets set
    if (message.content == (prefix + "update")){
     // psuedo coding the process 
@@ -230,7 +265,7 @@ client.on("message", (message) => {
       if (err) throw err;
       let dbo = db.db("characters");
     // will need to be replaced with a variable when we merge the functionality
-    if (player1wins==true){
+    if (choice1wins==true){
       dbo.collection("character").update({"name": Char1Info.name }, {$set: {wins: Char1Info.wins+1}})
       dbo.collection("character").update({"name": Char2Info.name}, {$set: {loses: Char2Info.loses+1 }})
     message.channel.send("Tried to update id ")
