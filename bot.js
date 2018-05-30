@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 let MongoClient = require('mongodb').MongoClient;
+var fs = require("fs");
 // sets the token and prefix from the config file
 const config = require("./config.json")
 const prefix = config.prefix
@@ -88,7 +89,7 @@ client.on("message", (message) => {
    // voting stuff below here
    if (VotingActive===true){
      // doesnt seem to like the or switch because it doesnt let poll a work but poll A does
-    if (message.content === (prefix + "poll A" || prefix + "poll a" )){
+    if (message.content.startsWith(prefix + "poll A") || message.content.startsWith(prefix + "poll a")){
       // checking for duplicate votes
       let DupFound=false;
       for (var i =0; i<AlreadyVoted.length; i++){
@@ -112,7 +113,7 @@ client.on("message", (message) => {
       }
       
     }
-    if (message.content.startsWith(prefix + "poll B" || prefix + "poll b")){
+    if (message.content.startsWith(prefix + "poll B") || message.content.startsWith(prefix + "poll b")){
       let DupFound=false;
       for (var i =0; i<AlreadyVoted.length; i++){
         if (AlreadyVoted[i]==message.author.username){
@@ -176,7 +177,7 @@ client.on("message", (message) => {
      ChoiceB=0;
     VotingActive = true;
     // here we need to add the randomization
-    let max=100; // 100 is the number of records I have in the db
+    let max=38; // 38 is the number of records I have in the db
      let char1 = Math.floor(Math.random() * Math.floor(max))
      let char2 = Math.floor(Math.random() * Math.floor(max))
      // no duplicate characters
@@ -244,23 +245,32 @@ client.on("message", (message) => {
     dbo.collection("character").find({"name" : name }).limit(1).toArray(function(err, result) {
       console.log(result)
       message.channel.send("Here is the data that was entered if this looks wrong, send me the _id and I can always delete it")
-      message.channel.send("id "+ result[0]._id + " "+ result[0].name + " url "+ result[0].url)
+      message.channel.send("id "+ result[0]._id + "Name: "+ result[0].name + " url: "+ result[0].url)
     db.close();
     
     })
 })
    }
-    if (message.content == (prefix + "allchars")){
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    let dbo = db.db("characters");
-    dbo.collection("character").find().toArray(function(err, result) {
-      for (var i=0; i<result.length; i++){
-        message.author.send(result[i].name)
-      }
+   // Doesnt work properly
+     if (message.content == (prefix + "allchars")){
+   MongoClient.connect(url, function(err, db) {
+     if (err) throw err;
+     let dbo = db.db("characters");
+     dbo.collection("character").find().toArray(function(err, result) {
+       for (var i=0; i<result.length; i++){
+        fs.appendFile("chars.txt", result[i].name+",", function(err, data) {
+          if (err) {
+              return console.log(err);
+          }
+          console.log("Wrote to txt")
+          
+
+
+      })
+       }
       
-    })
-  })
+     })
+   })
   }
   
 });
