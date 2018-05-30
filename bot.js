@@ -10,7 +10,7 @@ let VotingActive = false;
 let ChoiceA = 0;
 let ChoiceB = 0;
 let AlreadyVoted = []
-
+let max
 let url = "mongodb://localhost:27017/";
 
 
@@ -18,7 +18,42 @@ let url = "mongodb://localhost:27017/";
 
 client.on("ready", () => {
     console.log("I am ready!");
-});
+    // Checks the Length of the Database every 15 minutes for new user added content
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      let dbo = db.db("characters");
+      dbo.collection("character").find().toArray(function(err, result) {
+        max = result.length
+        console.log("Number of records: "+ max )
+        
+        db.close()
+      })
+      
+    })
+  }
+);
+let DBRefresh = setInterval(myTimer, 900000);
+function myTimer() {
+  let d = new Date();
+  console.log("Updating db at "+ d.toLocaleTimeString());
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    let dbo = db.db("characters");
+    dbo.collection("character").find().toArray(function(err, result) {
+      max = result.length
+      console.log("Number of records: "+ max )
+      
+      db.close()
+    })
+  })
+
+} 
+// let timeout = setInterval(function() { 
+  
+//       }, 60000 );
+       
+  
+
 
 client.on("message", (message) => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -145,8 +180,8 @@ client.on("message", (message) => {
 
         let choice1wins = false
 
-        let timeout = setTimeout(function() {
-            clearTimeout(timeout)
+        let timeout = setTimeout(function() { 
+    
             MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
                 let dbo = db.db("characters");
@@ -205,7 +240,7 @@ client.on("message", (message) => {
         ChoiceB = 0;
         VotingActive = true;
         // here we need to add the randomization
-        let max = 46; // 38 is the number of records I have in the db
+        let max = 45; // 38 is the number of records I have in the db
         let char1 = Math.floor(Math.random() * Math.floor(max))
         let char2 = Math.floor(Math.random() * Math.floor(max))
         // no duplicate characters
