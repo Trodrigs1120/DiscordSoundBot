@@ -6,10 +6,13 @@
     "bufferutil": "^3.0.5",
     "discord.io": "^2.5.3",
     "discord.js": "^11.3.2",
+    "fs": "0.0.1-security",
     "libsodium-wrappers": "^0.7.3",
+    "mongojs": "^2.5.0",
     "opusscript": "0.0.6",
     "uws": "^10.148.0",
     "winston": "^2.4.2",
+    "ytdl": "^0.10.1",
     "ytdl-core": "^0.20.4"
   },
   "devDependencies": {},
