@@ -32,7 +32,7 @@ client.on("ready", () => {
     })
   }
 );
-let DBRefresh = setInterval(myTimer, 900000);
+let DBRefresh = setInterval(myTimer, 1800000);
 function myTimer() {
   let d = new Date();
   console.log("Updating db at "+ d.toLocaleTimeString());
@@ -48,10 +48,6 @@ function myTimer() {
   })
 
 } 
-// let timeout = setInterval(function() { 
-  
-//       }, 60000 );
-       
   
 
 
@@ -115,7 +111,7 @@ client.on("message", (message) => {
             })
             .catch(console.error);
     }
-    if (message.content == prefix + "rollcharts") {
+    if (message.content == prefix + "rollchart") {
         message.channel.send("https://imgur.com/a/UWhXdZN");
     }
 
@@ -192,6 +188,7 @@ client.on("message", (message) => {
                     message.channel.send(Char1Info.name + " is the winner with " + ChoiceA + " votes!")
                 } else if (ChoiceA == ChoiceB) {
                     message.channel.send("No contest")
+                    VotingActive = false;
                     return
                 } else {
                     // shouldnt need to write anything else but its here
