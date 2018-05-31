@@ -189,6 +189,7 @@ client.on("message", (message) => {
                 } else if (ChoiceA == ChoiceB) {
                     message.channel.send("No contest")
                     VotingActive = false;
+                    db.close();
                     return
                 } else {
                     // shouldnt need to write anything else but its here
