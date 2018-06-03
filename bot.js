@@ -308,15 +308,15 @@ client.on("message", (message) => {
             })
 
             message.reply(`Attempted to add character to database`);
-            dbo.collection("character").find({
-                "name": name
-            }).limit(1).toArray(function(err, result) {
-                console.log(result)
-                message.channel.send("Here is the data that was entered if this looks wrong, send me the _id and I can always delete it")
-                message.channel.send("id " + result[0]._id + " Name: " + result[0].name + " url: " + result[0].url)
-                db.close();
+            // dbo.collection("character").find({
+            //     "name": name
+            // }).limit(1).toArray(function(err, result) {
+            //     console.log(result)
+            //     message.channel.send("Here is the data that was entered if this looks wrong, send me the _id and I can always delete it")
+            //     message.channel.send("id " + result[0]._id + " Name: " + result[0].name + " url: " + result[0].url)
+                 db.close();
 
-            })
+            // })
         })
     }
     // Doesnt work properly
