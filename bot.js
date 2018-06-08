@@ -18,7 +18,7 @@ let url = "mongodb://localhost:27017/";
 
 client.on("ready", () => {
     console.log("I am ready!");
-    // Checks the Length of the Database every 15 minutes for new user added content
+    // Checks the Length of the Database every hour minutes for new user added content
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       let dbo = db.db("characters");
@@ -32,7 +32,7 @@ client.on("ready", () => {
     })
   }
 );
-let DBRefresh = setInterval(myTimer, 1800000);
+let DBRefresh = setInterval(myTimer, 3600000); // the timer should be approximately an hour. It'll check for new records every hour
 function myTimer() {
   let d = new Date();
   console.log("Updating db at "+ d.toLocaleTimeString());
@@ -238,7 +238,7 @@ client.on("message", (message) => {
         ChoiceB = 0;
         VotingActive = true;
         // here we need to add the randomization
-        let max = 45; // 38 is the number of records I have in the db
+        // let max = 45; // 38 is the number of records I have in the db
         let char1 = Math.floor(Math.random() * Math.floor(max))
         let char2 = Math.floor(Math.random() * Math.floor(max))
         // no duplicate characters
