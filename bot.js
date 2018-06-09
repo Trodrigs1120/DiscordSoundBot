@@ -215,14 +215,14 @@ client.on("message", (message) => {
                         "name": Char1Info.name
                     }, {
                         $set: {
-                            loses: Char2Info.loses + 1
+                            loses: Char1Info.loses + 1
                         }
                     })
                     dbo.collection("character").update({
                         "name": Char2Info.name
                     }, {
                         $set: {
-                            wins: Char1Info.wins + 1
+                            wins: Char2Info.wins + 1
                         }
                     })
                 }
