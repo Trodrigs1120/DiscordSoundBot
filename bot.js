@@ -20,35 +20,34 @@ client.on("ready", () => {
     console.log("I am ready!");
     // Checks the Length of the Database every hour minutes for new user added content
     MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      let dbo = db.db("characters");
-      dbo.collection("character").find().toArray(function(err, result) {
-        max = result.length
-        console.log("Number of records: "+ max )
-        
-        db.close()
-      })
-      
+        if (err) throw err;
+        let dbo = db.db("characters");
+        dbo.collection("character").find().toArray(function(err, result) {
+            max = result.length
+            console.log("Number of records: " + max)
+
+            db.close()
+        })
+
     })
-  }
-);
+});
 let DBRefresh = setInterval(myTimer, 3600000); // the timer should be approximately an hour. It'll check for new records every hour
 function myTimer() {
-  let d = new Date();
-  console.log("Updating db at "+ d.toLocaleTimeString());
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    let dbo = db.db("characters");
-    dbo.collection("character").find().toArray(function(err, result) {
-      max = result.length
-      console.log("Number of records: "+ max )
-      
-      db.close()
-    })
-  })
+    let d = new Date();
+    console.log("Updating db at " + d.toLocaleTimeString());
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        let dbo = db.db("characters");
+        dbo.collection("character").find().toArray(function(err, result) {
+            max = result.length
+            console.log("Number of records: " + max)
 
-} 
-  
+            db.close()
+        })
+    })
+
+}
+
 
 
 client.on("message", (message) => {
@@ -114,8 +113,22 @@ client.on("message", (message) => {
     if (message.content == prefix + "rollchart") {
         message.channel.send("https://imgur.com/a/UWhXdZN");
     }
-
-
+    if (message.content == (prefix + "d10")) {
+        let roll = Math.random() * (10 - 1) + 1
+        message.channel.send(roll)
+    }
+    if (message.content == (prefix + "d8")) {
+        let roll = Math.random() * (8 - 1) + 1
+        message.channel.send(roll)
+    }
+    if (message.content == (prefix + "d6")) {
+        let roll = Math.random() * (6 - 1) + 1
+        message.channel.send(roll)
+    }
+    if (message.content == (prefix + "d4")) {
+        let roll = Math.random() * (4 - 1) + 1
+        message.channel.send(roll)
+    }
 
     // voting stuff below here
     if (VotingActive === true) {
@@ -176,8 +189,8 @@ client.on("message", (message) => {
 
         let choice1wins = false
 
-        let timeout = setTimeout(function() { 
-    
+        let timeout = setTimeout(function() {
+
             MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
                 let dbo = db.db("characters");
@@ -314,7 +327,7 @@ client.on("message", (message) => {
             //     console.log(result)
             //     message.channel.send("Here is the data that was entered if this looks wrong, send me the _id and I can always delete it")
             //     message.channel.send("id " + result[0]._id + " Name: " + result[0].name + " url: " + result[0].url)
-                 db.close();
+            db.close();
 
             // })
         })
