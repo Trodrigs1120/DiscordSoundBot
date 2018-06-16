@@ -115,7 +115,7 @@ client.on("message", (message) => {
     }
     // lets make a switch statement using the command and just have it roll dice at any number
     if (command == "roll") {
-        console.log(args)
+        
         let max = parseInt(args)
 
         let roll = Math.random() * (max - 1) + 1
@@ -154,7 +154,7 @@ client.on("message", (message) => {
     // voting stuff below here
     if (VotingActive === true) {
         // doesnt seem to like the or switch because it doesnt let poll a work but poll A does
-        if (message.content.startsWith(prefix + "poll A") || message.content.startsWith(prefix + "poll a")) {
+        if (command == "poll A" || command == "poll a") {
             // checking for duplicate votes
             let DupFound = false;
             for (var i = 0; i < AlreadyVoted.length; i++) {
@@ -178,7 +178,7 @@ client.on("message", (message) => {
             }
 
         }
-        if (message.content.startsWith(prefix + "poll B") || message.content.startsWith(prefix + "poll b")) {
+        if (command == "poll B" || command == "poll b") {
             let DupFound = false;
             for (var i = 0; i < AlreadyVoted.length; i++) {
                 if (AlreadyVoted[i] == message.author.username) {
