@@ -10,7 +10,7 @@ let VotingActive = false;
 let ChoiceA = 0;
 let ChoiceB = 0;
 let AlreadyVoted = []
-let max
+let dbceiling
 let url = "mongodb://localhost:27017/";
 
 
@@ -23,8 +23,8 @@ client.on("ready", () => {
         if (err) throw err;
         let dbo = db.db("characters");
         dbo.collection("character").find().toArray(function(err, result) {
-            max = result.length
-            console.log("Number of records: " + max)
+            dbceiling = result.length
+            console.log("Number of records: " + dbceiling)
 
             db.close()
         })
@@ -39,8 +39,8 @@ function myTimer() {
         if (err) throw err;
         let dbo = db.db("characters");
         dbo.collection("character").find().toArray(function(err, result) {
-            max = result.length
-            console.log("Number of records: " + max)
+            dbceiling = result.length
+            console.log("Number of records: " + dbceiling)
 
             db.close()
         })
@@ -56,7 +56,7 @@ client.on("message", (message) => {
     // images, sound files and basic commands
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    if (message.content.startsWith(prefix + "help")) {
+    if (command == "help") {
         message.channel.send("The bot is still a work in progress but It currently has a few commands");
         message.channel.send('"!joinme" will join the bot into your channel');
         message.channel.send('"!goaway" will remove the bot from your channel');
@@ -67,17 +67,17 @@ client.on("message", (message) => {
 
 
 
-    if (message.content.startsWith(prefix + "joinme")) {
+    if (command == "joinme") {
         const channel = message.member.voiceChannel;
         channel.join()
     }
 
-    if (message.content.startsWith(prefix + "goaway")) {
+    if (command == "goaway") {
         const channel = message.member.voiceChannel;
         channel.leave();
     }
 
-    if (message.content.startsWith(prefix + "dunk1")) {
+    if (command == "dunk1") {
         const channel = message.member.voiceChannel;
         channel.join()
             .then(connection => {
@@ -87,7 +87,7 @@ client.on("message", (message) => {
                 const dispatcher = connection.playBroadcast(broadcast);
             })
     }
-    if (message.content.startsWith(prefix + "wimmy")) {
+    if (command == "wimmy") {
         const channel = message.member.voiceChannel;
         channel.join()
             .then(connection => {
@@ -99,7 +99,7 @@ client.on("message", (message) => {
             .catch(console.error);
     }
 
-    if (message.content.startsWith(prefix + "dave")) {
+    if (command == "dave") {
         const channel = message.member.voiceChannel;
         channel.join()
             .then(connection => {
@@ -110,23 +110,44 @@ client.on("message", (message) => {
             })
             .catch(console.error);
     }
-    if (message.content == prefix + "rollchart") {
+    if (command == "rollchart") {
         message.channel.send("https://imgur.com/a/UWhXdZN");
     }
-    if (message.content == (prefix + "d10")) {
+    // lets make a switch statement using the command and just have it roll dice at any number
+    if (command == "roll") {
+        console.log(args)
+        let max = parseInt(args)
+
+        let roll = Math.random() * (max - 1) + 1
+        roll = roll.toFixed(0)
+        message.channel.send(roll)
+
+
+    }
+    //these dice commands dont need to exist but im leaving them for now as some users have a preference over using roll
+    if (command == "d20") {
+        let roll = Math.random() * (20 - 1) + 1
+        roll = roll.toFixed(0)
+        message.channel.send(roll)
+    }
+    if (command == "d10") {
         let roll = Math.random() * (10 - 1) + 1
+        roll = roll.toFixed(0)
         message.channel.send(roll)
     }
     if (message.content == (prefix + "d8")) {
         let roll = Math.random() * (8 - 1) + 1
+        roll = roll.toFixed(0)
         message.channel.send(roll)
     }
     if (message.content == (prefix + "d6")) {
         let roll = Math.random() * (6 - 1) + 1
+        roll = roll.toFixed(0)
         message.channel.send(roll)
     }
     if (message.content == (prefix + "d4")) {
         let roll = Math.random() * (4 - 1) + 1
+        roll = roll.toFixed(0)
         message.channel.send(roll)
     }
 
@@ -250,14 +271,14 @@ client.on("message", (message) => {
         ChoiceA = 0;
         ChoiceB = 0;
         VotingActive = true;
-        // here we need to add the randomization
-        // let max = 45; // 38 is the number of records I have in the db
-        let char1 = Math.floor(Math.random() * Math.floor(max))
-        let char2 = Math.floor(Math.random() * Math.floor(max))
+
+
+        let char1 = Math.floor(Math.random() * Math.floor(dbceiling))
+        let char2 = Math.floor(Math.random() * Math.floor(dbceiling))
         // no duplicate characters
         if (char1 === char2) {
-            char1 = Math.floor(Math.random() * Math.floor(max))
-            char2 = Math.floor(Math.random() * Math.floor(max))
+            char1 = Math.floor(Math.random() * Math.floor(dbceiling))
+            char2 = Math.floor(Math.random() * Math.floor(dbceiling))
         }
         let Char1Info = {
             name: "",
@@ -306,12 +327,11 @@ client.on("message", (message) => {
         message.channel.send("Type !poll A for option 1 or Type !poll B for option 2")
     }
     if (command === "addchar") {
-        // let name = args[0]; // Remember arrays are 0-based!.
-        // let url = args[1];
+
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             let dbo = db.db("characters");
-            let name = args[0]; // Remember arrays are 0-based!.
+            let name = args[0];
             let url = args[1];
             dbo.collection("character").insert({
                 name: name,
