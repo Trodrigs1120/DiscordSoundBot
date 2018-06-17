@@ -154,7 +154,7 @@ client.on("message", (message) => {
     // voting stuff below here
     if (VotingActive === true) {
         // doesnt seem to like the or switch because it doesnt let poll a work but poll A does
-        if (command == "poll A" || command == "poll a") {
+        if (message.content == prefix + "poll A" || message.content == prefix + "poll a") {
             // checking for duplicate votes
             let DupFound = false;
             for (var i = 0; i < AlreadyVoted.length; i++) {
@@ -178,7 +178,7 @@ client.on("message", (message) => {
             }
 
         }
-        if (command == "poll B" || command == "poll b") {
+        if (message.content == prefix + "poll B" || message.content == prefix +"poll b") {
             let DupFound = false;
             for (var i = 0; i < AlreadyVoted.length; i++) {
                 if (AlreadyVoted[i] == message.author.username) {
