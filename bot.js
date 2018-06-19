@@ -115,12 +115,23 @@ client.on("message", (message) => {
     }
     // lets make a switch statement using the command and just have it roll dice at any number
     if (command == "roll") {
-        
-        let max = parseInt(args)
-
-        let roll = Math.random() * (max - 1) + 1
-        roll = roll.toFixed(0)
-        message.channel.send(roll)
+        // console.log(args[0])
+        // console.log(args[1])
+        if (args[0]>1){
+            let max = parseInt(args[0])
+            let bonus = parseInt(args[1])
+            let roll = Math.random() * (max - 1) + 1
+            roll = roll.toFixed(0)
+            if (bonus>0){
+                message.channel.send(roll + " +/-"+ bonus)
+            } else {
+                message.channel.send(roll)
+            }
+            
+        } else {
+            message.channel.send("Please specify a number")
+        }
+       
 
 
     }
