@@ -14,7 +14,7 @@ Getting started: Installation
   "prefix": "!"
 }` I personally use ! as my prefix but you can change it to whatever you like. On your bot's page that we set up earlier there will be a secret token that you will be inputting into your config.json file. Allow me to empasis *THIS TOKEN IS A SECRET* if you upload this token to github or anywhere else you will regret it.
 
-5. 
+5. Setting up mongodb.
 
 
 
