@@ -136,6 +136,8 @@ client.on("message", (message) => {
 
     }
     //these dice commands dont need to exist but im leaving them for now as some users have a preference over using roll
+   
+    
     if (command == "d20") {
         let roll = Math.random() * (20 - 1) + 1
         roll = roll.toFixed(0)
@@ -335,7 +337,7 @@ client.on("message", (message) => {
                 db.close();
             });
         });
-        message.channel.send("Type !poll A for option 1 or Type !poll B for option 2")
+        message.channel.send("Type "+prefix +"poll A for option 1 or Type "+prefix +"poll B for option 2")
     }
     if (command === "addchar") {
 
