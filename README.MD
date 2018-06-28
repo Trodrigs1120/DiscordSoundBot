@@ -14,8 +14,9 @@ Getting started: Installation
   "prefix": "!"
 }` I personally use ! as my prefix but you can change it to whatever you like. On your bot's page that we set up earlier there will be a secret token that you will be inputting into your config.json file. Allow me to empasis *THIS TOKEN IS A SECRET* if you upload this token to github or anywhere else you will regret it.
 
-5. Setting up mongodb.
+5. We're now going to be setting up the database. I use [Robo3t](https://robomongo.org/) personally, but in order for that to do us any good we're going to need to install [Mongodb](https://docs.mongodb.com/manual/administration/install-community/) The documentation has instructions on getting everything set up so that you can run the `mongod` command. Once you can run the command successfully and have added mongodb to your system path. If there is any confusion you are looking for the section that says "Install MongoDB Community Edition" with "Interactive install below that"
 
+6. With all that done we should be able to get the bot started up. In order to do so you'll want to first run `mongod` in one terminal/powershell instance and then in another navigate to where your bot is located and run `node .\bot.js`
 
 
 To Do: Add usage onto the read me
