@@ -16,7 +16,12 @@ Getting started: Installation
 
 5. We're now going to be setting up the database. I use [Robo3t](https://robomongo.org/) personally, but in order for that to do us any good we're going to need to install [Mongodb](https://docs.mongodb.com/manual/administration/install-community/) The documentation has instructions on getting everything set up so that you can run the `mongod` command. Once you can run the command successfully and have added mongodb to your system path. If there is any confusion you are looking for the section that says "Install MongoDB Community Edition" with "Interactive install below that"
 
-6. With all that done we should be able to get the bot started up. In order to do so you'll want to first run `mongod` in one terminal/powershell instance and then in another navigate to where your bot is located and run `node .\bot.js`
+6. With all that done we should be able to get the bot started up. In order to do so you'll want to first run `mongod` in one terminal/powershell instance and then in another navigate to where your bot is located and run `node .\bot.js` It should look similar to this when you run the two commands. 
+<br>![alt text](https://github.com/Trodrigs1120/DiscordSoundBot/blob/master/tutorialassets/Mongod.png "MongoDB Screenshot")
+<br>![alt text](https://github.com/Trodrigs1120/DiscordSoundBot/blob/master/tutorialassets/NodeExample.png "Node Screenshot")
+You probably won't have 58 records in the characters database, however that is what you should expect to see. When we start it up it checks to see how many characters are in the database and then refreshes periodically. Make sure you always run both of those commands when you want the bot to run on your server. 
+
+At this point you should be able to get the bot to start up and you should be able to run commands and play around with it. Feel free to add your own functionality, I'd love to see what creative ideas others come up with. 
 
 
-To Do: Add usage onto the read me
+To Do: I'll write a short user guide on how to actually use the bot.
