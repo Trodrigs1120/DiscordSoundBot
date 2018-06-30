@@ -1,4 +1,4 @@
-This is a small discord bot that I wrote in my spare time for use in the discord server than my friends and I use. The main purpose is to play soundfiles, post links and do character battles. 
+This is a small discord bot that I wrote in my spare time for use in the discord server that my friends and I use. The main purpose is to play soundfiles, post links and do character battles. 
 
 
 Getting started: Installation
