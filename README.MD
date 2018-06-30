@@ -24,4 +24,11 @@ You probably won't have 58 records in the characters database, however that is w
 At this point you should be able to get the bot to start up and you should be able to run commands and play around with it. Feel free to add your own functionality, I'd love to see what creative ideas others come up with. 
 
 
-To Do: I'll write a short user guide on how to actually use the bot.
+Work in progress 
+
+ Commands and Usage, and commands are preceded by the prefix that you set up in step 4
+ 
+ `poll` Will begin a poll calling records from the mongo database. 
+ `addchar` has the arguments of `Name` `url` you can add characters to the database.
+ `roll` has an arguement of an integer. You can do roll 20 for 1-20 for example. It will roll between 1 and whatever number is input.
+
