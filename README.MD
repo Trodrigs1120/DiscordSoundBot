@@ -28,7 +28,11 @@ Work in progress
 
  Commands and Usage, and commands are preceded by the prefix that you set up in step 4
  
- `poll` Will begin a poll calling records from the mongo database. 
- `addchar` has the arguments of `Name` `url` you can add characters to the database.
+ `poll` Will begin a poll calling records from the mongo database.
+ <br>
+ `addchar` has the arguments of `Name` `url` you can add characters to the database. A successful addition would look similar to this ![Minus the wins of course](https://raw.githubusercontent.com/Trodrigs1120/DiscordSoundBot/master/tutorialassets/recordexample.PNG)
  `roll` has an arguement of an integer. You can do roll 20 for 1-20 for example. It will roll between 1 and whatever number is input.
+ <br> `joinme` will bring the bot into your voice channel
+ <br> `goaway` will make the bot disconnect from your voice channel
+ <br> `dunk1`, `!wimmy`, and `dave` will play the sound file. Caution loud noises and bad taste in music
 
